@@ -23,43 +23,68 @@
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
-
   html{ scroll-behavior:smooth; }
 
   body{
-    background:
-      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(91,141,239,0.08), transparent),
-      radial-gradient(ellipse 700px 400px at -10% 20%, rgba(78,225,160,0.06), transparent),
-      var(--bg);
+    background: var(--bg);
     color: var(--text);
     font-family: 'Inter', sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    position: relative;
   }
 
   ::selection{ background: var(--accent-dim); color: var(--accent); }
 
+  /* ---------- ANIMATED BACKGROUND ---------- */
+  #bg-canvas{
+    position: fixed; inset:0; width:100%; height:100%; z-index:0;
+    opacity: 0.55;
+  }
+  .bg-fade{
+    position: fixed; inset:0; z-index:1; pointer-events:none;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(91,141,239,0.10), transparent 60%),
+      radial-gradient(ellipse 700px 450px at -10% 30%, rgba(78,225,160,0.07), transparent 60%),
+      linear-gradient(180deg, rgba(10,12,16,0.2), var(--bg) 12%, var(--bg) 88%, rgba(10,12,16,0.4));
+  }
+  #cursor-glow{
+    position: fixed; width: 480px; height:480px; border-radius:50%; z-index:2;
+    pointer-events:none; transform: translate(-50%,-50%);
+    background: radial-gradient(circle, rgba(78,225,160,0.06), transparent 70%);
+    transition: opacity 0.3s ease; opacity:0;
+  }
+
+  .site{ position:relative; z-index:3; }
   .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- BOOT OVERLAY ---------- */
+  #boot{
+    position: fixed; inset:0; z-index:50; background: var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono', monospace; color: var(--accent);
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+  }
+  #boot.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
+  #boot-lines{ font-size:13.5px; line-height:1.9; min-width: 280px; }
+  #boot-lines .muted{ color: var(--text-faint); }
+  #boot-lines .ok{ color: var(--accent); }
+  .caret{ display:inline-block; width:7px; height:14px; background: var(--accent); margin-left:2px; animation: blink 0.9s steps(1) infinite; vertical-align:-2px; }
+  @keyframes blink{ 50%{ opacity:0; } }
 
   /* ---------- NAV / EYEBROW ---------- */
   .topbar{
     display:flex; align-items:center; justify-content:space-between;
     padding: 28px 0; border-bottom: 1px solid var(--border);
   }
-  .topbar .mark{
-    font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted);
-    letter-spacing: 0.03em;
-  }
+  .topbar .mark{ font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted); letter-spacing: 0.03em; }
   .topbar .mark span{ color: var(--accent); }
   .status-pill{
     display:flex; align-items:center; gap:8px;
     font-family:'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);
     border:1px solid var(--border); padding:6px 12px; border-radius:100px;
   }
-  .dot{
-    width:7px; height:7px; border-radius:50%; background: var(--accent);
-    animation: pulse 2.2s infinite;
-  }
+  .dot{ width:7px; height:7px; border-radius:50%; background: var(--accent); animation: pulse 2.2s infinite; }
   @keyframes pulse{
     0%{ box-shadow: 0 0 0 0 rgba(78,225,160,0.5); }
     70%{ box-shadow: 0 0 0 7px rgba(78,225,160,0); }
@@ -71,8 +96,8 @@
     display:grid; grid-template-columns: 1.15fr 0.85fr; gap:64px;
     align-items:center; padding: 88px 0 96px;
     opacity:0; transform: translateY(14px);
-    animation: rise 0.9s ease forwards 0.15s;
   }
+  .hero.rise{ animation: rise 0.9s ease forwards; }
   @keyframes rise{ to{ opacity:1; transform:none; } }
 
   .eyebrow{
@@ -84,77 +109,62 @@
 
   h1.name{
     font-family:'Fraunces', serif; font-weight:500; font-style:italic;
-    font-size: clamp(40px, 5.4vw, 64px); line-height:1.05; letter-spacing:-0.01em;
-    color:#fff;
+    font-size: clamp(40px, 5.4vw, 64px); line-height:1.05; letter-spacing:-0.01em; color:#fff;
   }
   h1.name .last{ color: var(--accent); font-style:normal; }
 
-  .role-line{
-    margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:15px;
-    color: var(--text-muted);
-  }
+  .role-line{ margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:15px; color: var(--text-muted); min-height: 20px; }
   .role-line .k{ color: var(--accent-2); }
   .role-line .s{ color: var(--text-faint); }
+  #typed-role{ border-right: 2px solid var(--accent); padding-right:3px; }
 
-  .lede{
-    margin-top: 26px; font-size:16.5px; color: var(--text-muted); max-width: 46ch;
-  }
+  .lede{ margin-top: 26px; font-size:16.5px; color: var(--text-muted); max-width: 46ch; }
 
-  .meta-row{
-    display:flex; flex-wrap:wrap; gap: 28px; margin-top:34px;
-  }
-  .meta-item .l{
-    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--text-faint);
-    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px;
-  }
+  .meta-row{ display:flex; flex-wrap:wrap; gap: 28px; margin-top:34px; }
+  .meta-item .l{ font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px; }
   .meta-item .v{ font-size:14.5px; color: var(--text); font-weight:500; }
 
-  /* ---------- MONITORING PANEL (signature element) ---------- */
+  /* ---------- MONITORING PANEL ---------- */
   .panel{
     background: linear-gradient(180deg, var(--surface), var(--surface-2));
     border:1px solid var(--border); border-radius: 14px; padding: 22px;
     box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+    transform-style: preserve-3d; will-change: transform;
   }
-  .panel-head{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom: 18px;
-  }
-  .panel-title{
-    font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-muted);
-    display:flex; align-items:center; gap:8px;
-  }
+  .panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 18px; }
+  .panel-title{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-muted); display:flex; align-items:center; gap:8px; }
   .panel-title .sq{ width:8px; height:8px; background: var(--accent); border-radius:2px; }
   .panel-dots{ display:flex; gap:6px; }
   .panel-dots i{ width:8px; height:8px; border-radius:50%; background: var(--border); display:block; }
 
-  .panel-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:16px; }
-  .stat{
-    background: rgba(255,255,255,0.02); border:1px solid var(--border);
-    border-radius:10px; padding:14px 16px;
-  }
-  .stat .num{ font-family:'Fraunces', serif; font-size:26px; color:#fff; font-weight:500; }
+  .panel-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:14px; }
+  .stat{ background: rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:10px; padding:14px 16px; }
+  .stat .num{ font-family:'Fraunces', serif; font-size:26px; color:#fff; font-weight:500; font-variant-numeric: tabular-nums; }
   .stat .num em{ color:var(--accent); font-style:normal; }
   .stat .lbl{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color: var(--text-faint); margin-top:4px; letter-spacing:0.03em; }
 
-  .graph-box{
-    border:1px solid var(--border); border-radius:10px; padding:14px 16px 10px;
-    background: rgba(255,255,255,0.015);
-  }
+  .graph-box{ border:1px solid var(--border); border-radius:10px; padding:14px 16px 10px; background: rgba(255,255,255,0.015); margin-bottom:14px; }
   .graph-box .lbl{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color: var(--text-faint); margin-bottom:8px; letter-spacing:0.03em; }
   .sparkline{ width:100%; height:52px; display:block; }
-  .spark-path{
-    stroke-dasharray: 400; stroke-dashoffset: 400;
-    animation: draw 1.6s ease forwards 0.6s;
-  }
+  .spark-path{ stroke-dasharray: 400; stroke-dashoffset: 400; }
+  .spark-path.draw{ animation: draw 1.6s ease forwards; }
   @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  .uptime-box{
+    display:flex; align-items:center; justify-content:space-between;
+    border:1px dashed var(--border); border-radius:10px; padding:12px 16px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .uptime-box .lbl{ font-size:10.5px; color: var(--text-faint); letter-spacing:0.03em; }
+  .uptime-box .val{ font-size:14px; color: var(--accent); font-variant-numeric: tabular-nums; }
 
   /* ---------- SECTION SHELL ---------- */
   section{ padding: 76px 0; border-top: 1px solid var(--border); }
+  .reveal{ opacity:0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in-view{ opacity:1; transform:none; }
   .section-head{ display:flex; align-items:baseline; gap:16px; margin-bottom: 44px; }
   .section-num{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--accent); }
-  h2.section-title{
-    font-family:'Fraunces', serif; font-weight:500; font-size: clamp(26px, 3vw, 34px); color:#fff;
-  }
+  h2.section-title{ font-family:'Fraunces', serif; font-weight:500; font-size: clamp(26px, 3vw, 34px); color:#fff; }
 
   /* ---------- ABOUT ---------- */
   .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 60px; }
@@ -162,10 +172,7 @@
   .about-text p .hl{ color: var(--text); }
 
   .info-list{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); }
-  .info-row{
-    display:flex; justify-content:space-between; gap:20px; padding:16px 0;
-    border-bottom:1px solid var(--border);
-  }
+  .info-row{ display:flex; justify-content:space-between; gap:20px; padding:16px 0; border-bottom:1px solid var(--border); }
   .info-row .k{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--text-faint); }
   .info-row .v{ font-size:14.5px; color:var(--text); text-align:right; }
 
@@ -173,47 +180,34 @@
   .exp-card{
     display:grid; grid-template-columns: 220px 1fr; gap: 40px;
     padding: 32px; background: var(--surface); border:1px solid var(--border); border-radius:14px;
+    transform-style: preserve-3d; will-change: transform;
   }
   .exp-side{ border-right: 1px solid var(--border); padding-right: 32px; }
   .exp-role{ font-family:'Fraunces', serif; font-size:21px; color:#fff; font-weight:500; margin-bottom:6px; }
   .exp-org{ color: var(--accent-2); font-size:14.5px; margin-bottom:14px; }
-  .exp-time{
-    font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-faint);
-    display:inline-flex; align-items:center; gap:8px;
-  }
+  .exp-time{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-faint); display:inline-flex; align-items:center; gap:8px; }
   .exp-time .dot2{ width:6px; height:6px; border-radius:50%; background: var(--accent); }
 
   .exp-list{ list-style:none; display:flex; flex-direction:column; gap:16px; }
-  .exp-list li{
-    position:relative; padding-left:22px; color: var(--text-muted); font-size:15px;
-  }
-  .exp-list li::before{
-    content:'▸'; position:absolute; left:0; color: var(--accent); font-size:13px; top:2px;
-  }
+  .exp-list li{ position:relative; padding-left:22px; color: var(--text-muted); font-size:15px; }
+  .exp-list li::before{ content:'▸'; position:absolute; left:0; color: var(--accent); font-size:13px; top:2px; }
   .exp-list li .hl{ color: var(--text); }
 
-  /* ---------- ACHIEVEMENTS (deploy log style) ---------- */
+  /* ---------- ACHIEVEMENTS ---------- */
   .log{ display:flex; flex-direction:column; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
   .log-item{
     display:grid; grid-template-columns: 130px 1fr; gap: 28px;
     padding: 26px 28px; border-bottom:1px solid var(--border); background: var(--surface);
-    transition: background 0.25s ease;
+    transition: background 0.25s ease; transform-style: preserve-3d; will-change: transform;
   }
   .log-item:last-child{ border-bottom:none; }
   .log-item:hover{ background: var(--surface-2); }
-  .log-tag{
-    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--bg);
-    background: var(--accent); align-self:start; padding:4px 9px; border-radius:5px; font-weight:500;
-    letter-spacing:0.02em;
-  }
+  .log-tag{ font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--bg); background: var(--accent); align-self:start; padding:4px 9px; border-radius:5px; font-weight:500; letter-spacing:0.02em; }
   .log-tag.alt{ background: var(--accent-warm); }
   .log-tag.alt2{ background: var(--accent-2); color:#fff; }
   .log-body h3{ font-family:'Fraunces', serif; font-size:19px; color:#fff; font-weight:500; margin-bottom:8px; }
   .log-body p{ color: var(--text-muted); font-size:14.5px; max-width: 62ch; }
-  .log-cmd{
-    font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--text-faint);
-    margin-top:10px;
-  }
+  .log-cmd{ font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--text-faint); margin-top:10px; }
   .log-cmd .p{ color: var(--accent); }
 
   /* ---------- INTERESTS ---------- */
@@ -221,11 +215,37 @@
   .tag-card{
     border:1px solid var(--border); border-radius:12px; padding:22px 20px;
     display:flex; align-items:center; gap:14px; background: var(--surface);
-    transition: border-color 0.2s ease, transform 0.2s ease;
+    transition: border-color 0.2s ease; transform-style: preserve-3d; will-change: transform;
   }
-  .tag-card:hover{ border-color: var(--accent); transform: translateY(-2px); }
+  .tag-card:hover{ border-color: var(--accent); }
   .tag-card svg{ flex-shrink:0; }
   .tag-card span{ font-size:14.5px; color: var(--text); font-weight:500; }
+
+  /* ---------- TERMINAL ---------- */
+  .term{
+    border:1px solid var(--border); border-radius:14px; overflow:hidden; background: #0d0f14;
+  }
+  .term-head{
+    display:flex; align-items:center; gap:8px; padding:12px 16px; background: var(--surface);
+    border-bottom:1px solid var(--border);
+  }
+  .term-head i{ width:10px; height:10px; border-radius:50%; background: var(--border); display:block; }
+  .term-head .tlabel{ margin-left:8px; font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-faint); }
+  .term-body{ padding:20px; font-family:'JetBrains Mono', monospace; font-size:13.5px; min-height: 200px; max-height: 340px; overflow-y:auto; }
+  .term-body::-webkit-scrollbar{ width:6px; }
+  .term-body::-webkit-scrollbar-thumb{ background: var(--border); border-radius:3px; }
+  .term-line{ color: var(--text-muted); margin-bottom:8px; white-space:pre-wrap; line-height:1.7; }
+  .term-line.cmd{ color: var(--text); }
+  .term-line.cmd::before{ content:'$ '; color: var(--accent); }
+  .term-line.hint{ color: var(--text-faint); }
+  .term-line .k{ color: var(--accent); }
+  .term-input-row{ display:flex; align-items:center; gap:8px; margin-top:4px; }
+  .term-input-row .prompt{ color: var(--accent); }
+  #term-input{
+    flex:1; background:transparent; border:none; outline:none; color: var(--text);
+    font-family:'JetBrains Mono', monospace; font-size:13.5px;
+  }
+  #term-input::placeholder{ color: var(--text-faint); }
 
   /* ---------- FOOTER ---------- */
   footer{ padding: 56px 0 64px; border-top:1px solid var(--border); }
@@ -244,16 +264,26 @@
     .panel-grid{ grid-template-columns: 1fr 1fr; }
     .foot-row{ flex-direction:column; align-items:flex-start; }
     .foot-sig{ text-align:left; }
+    #cursor-glow{ display:none; }
   }
 
   @media (prefers-reduced-motion: reduce){
-    .hero, .spark-path, .dot{ animation: none !important; }
-    .hero{ opacity:1; transform:none; }
+    .hero, .spark-path, .dot, .reveal{ animation: none !important; transition:none !important; opacity:1 !important; transform:none !important; }
+    #boot{ display:none; }
   }
 </style>
 </head>
 <body>
 
+<canvas id="bg-canvas"></canvas>
+<div class="bg-fade"></div>
+<div id="cursor-glow"></div>
+
+<div id="boot">
+  <div id="boot-lines"></div>
+</div>
+
+<div class="site">
 <div class="wrap">
 
   <!-- TOPBAR -->
@@ -263,64 +293,47 @@
   </div>
 
   <!-- HERO -->
-  <div class="hero">
+  <div class="hero" id="hero">
     <div>
       <div class="eyebrow">Software Developer &amp; DevOps Engineer</div>
       <h1 class="name">Agung <span class="last">Prayoga</span>, S.Kom</h1>
-      <div class="role-line"><span class="k">status:</span> membangun sistem yang andal <span class="s">// Bekasi, Indonesia</span></div>
+      <div class="role-line"><span class="k">status:</span> <span id="typed-role"></span> <span class="s">// Bekasi, Indonesia</span></div>
       <p class="lede">Lulusan Ilmu Komputer yang menghabiskan dua tahun terakhir merancang, memantau, dan menjaga sistem tetap berjalan — mulai dari dashboard performa karyawan hingga basis data kapal yang menjadi acuan saat keadaan darurat.</p>
 
       <div class="meta-row">
-        <div class="meta-item">
-          <div class="l">Lahir</div>
-          <div class="v">15 April 1999, Bekasi</div>
-        </div>
-        <div class="meta-item">
-          <div class="l">Pendidikan</div>
-          <div class="v">S1 Ilmu Komputer — Univ. Bhayangkara Jaya</div>
-        </div>
-        <div class="meta-item">
-          <div class="l">Saat Ini</div>
-          <div class="v">Xurya Daya Indonesia</div>
-        </div>
+        <div class="meta-item"><div class="l">Lahir</div><div class="v">15 April 1999, Bekasi</div></div>
+        <div class="meta-item"><div class="l">Pendidikan</div><div class="v">S1 Ilmu Komputer — Univ. Bhayangkara Jaya</div></div>
+        <div class="meta-item"><div class="l">Saat Ini</div><div class="v">Xurya Daya Indonesia</div></div>
       </div>
     </div>
 
     <!-- SIGNATURE: monitoring panel -->
-    <div class="panel">
+    <div class="panel" id="tilt-panel">
       <div class="panel-head">
         <div class="panel-title"><span class="sq"></span> career_metrics.dashboard</div>
         <div class="panel-dots"><i></i><i></i><i></i></div>
       </div>
       <div class="panel-grid">
-        <div class="stat">
-          <div class="num">2<em>th</em></div>
-          <div class="lbl">MASA KERJA AKTIF</div>
-        </div>
-        <div class="stat">
-          <div class="num"><em>4</em></div>
-          <div class="lbl">SISTEM DIBANGUN</div>
-        </div>
-        <div class="stat">
-          <div class="num"><em>1</em></div>
-          <div class="lbl">HAKI TERDAFTAR</div>
-        </div>
-        <div class="stat">
-          <div class="num">99.9<em>%</em></div>
-          <div class="lbl">UPTIME KOMITMEN</div>
-        </div>
+        <div class="stat"><div class="num">2<em>th</em></div><div class="lbl">MASA KERJA AKTIF</div></div>
+        <div class="stat"><div class="num"><em>4</em></div><div class="lbl">SISTEM DIBANGUN</div></div>
+        <div class="stat"><div class="num"><em>1</em></div><div class="lbl">HAKI TERDAFTAR</div></div>
+        <div class="stat"><div class="num">99.9<em>%</em></div><div class="lbl">UPTIME KOMITMEN</div></div>
       </div>
       <div class="graph-box">
         <div class="lbl">TREN KONTRIBUSI // 2024 — 2026</div>
         <svg class="sparkline" viewBox="0 0 300 60" preserveAspectRatio="none">
-          <polyline points="0,45 40,42 70,30 110,34 150,18 190,22 230,10 270,14 300,4" fill="none" stroke="#4ee1a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spark-path"/>
+          <polyline points="0,45 40,42 70,30 110,34 150,18 190,22 230,10 270,14 300,4" fill="none" stroke="#4ee1a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spark-path" id="spark"/>
         </svg>
+      </div>
+      <div class="uptime-box">
+        <span class="lbl">SESI HALAMAN INI</span>
+        <span class="val" id="live-uptime">00:00:00</span>
       </div>
     </div>
   </div>
 
   <!-- ABOUT -->
-  <section id="about">
+  <section id="about" class="reveal">
     <div class="section-head"><span class="section-num">01</span><h2 class="section-title">Tentang</h2></div>
     <div class="about-grid">
       <div class="about-text">
@@ -341,9 +354,9 @@
   </section>
 
   <!-- EXPERIENCE -->
-  <section id="experience">
+  <section id="experience" class="reveal">
     <div class="section-head"><span class="section-num">02</span><h2 class="section-title">Pengalaman</h2></div>
-    <div class="exp-card">
+    <div class="exp-card tilt-el">
       <div class="exp-side">
         <div class="exp-role">Software Developer &amp; DevOps Engineer</div>
         <div class="exp-org">Xurya Daya Indonesia</div>
@@ -359,10 +372,10 @@
   </section>
 
   <!-- ACHIEVEMENTS -->
-  <section id="achievements">
+  <section id="achievements" class="reveal">
     <div class="section-head"><span class="section-num">03</span><h2 class="section-title">Karya &amp; Pencapaian</h2></div>
     <div class="log">
-      <div class="log-item">
+      <div class="log-item tilt-el">
         <div class="log-tag alt2">HAKI</div>
         <div class="log-body">
           <h3>Themonizer</h3>
@@ -370,7 +383,7 @@
           <div class="log-cmd"><span class="p">$</span> status --karya themonizer → terdaftar resmi</div>
         </div>
       </div>
-      <div class="log-item">
+      <div class="log-item tilt-el">
         <div class="log-tag">MONITORING</div>
         <div class="log-body">
           <h3>Sistem Monitoring Dora Metrics — Grafana</h3>
@@ -378,7 +391,7 @@
           <div class="log-cmd"><span class="p">$</span> deploy dora-metrics.dashboard → live</div>
         </div>
       </div>
-      <div class="log-item">
+      <div class="log-item tilt-el">
         <div class="log-tag alt">SISTEM DATA</div>
         <div class="log-body">
           <h3>Sistem Absensi Kapal — PPN Pelabuhan Ratu</h3>
@@ -386,7 +399,7 @@
           <div class="log-cmd"><span class="p">$</span> build absensi-kapal.web → PPN Pelabuhan Ratu</div>
         </div>
       </div>
-      <div class="log-item">
+      <div class="log-item tilt-el">
         <div class="log-tag alt">SISTEM DATA</div>
         <div class="log-body">
           <h3>Sistem Data Kapal — PPN Kendari</h3>
@@ -398,32 +411,29 @@
   </section>
 
   <!-- INTERESTS -->
-  <section id="interests">
+  <section id="interests" class="reveal">
     <div class="section-head"><span class="section-num">04</span><h2 class="section-title">Minat &amp; Keseharian</h2></div>
     <div class="tag-grid">
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 16l7-2 5-8 2 1-4 8 6 3-1 2-8-2-4 3-1-2z"/></svg>
-        <span>Travel</span>
-      </div>
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M4 10h16M6 10a6 6 0 0112 0M4 14h16v2a4 4 0 01-4 4H8a4 4 0 01-4-4v-2z"/></svg>
-        <span>Kuliner</span>
-      </div>
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l3-8h-4l-2 4H9l-2-4H4"/></svg>
-        <span>Touring</span>
-      </div>
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 17c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M4 12l7-7 9 9"/></svg>
-        <span>Renang</span>
-      </div>
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M3 13l2-5a3 3 0 013-2h8a3 3 0 013 2l2 5v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-5z"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg>
-        <span>Otomotif</span>
-      </div>
-      <div class="tag-card">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 12h.01M17 11h.01M17 13h.01"/><circle cx="10" cy="12" r="1.2"/></svg>
-        <span>Gaming</span>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 16l7-2 5-8 2 1-4 8 6 3-1 2-8-2-4 3-1-2z"/></svg><span>Travel</span></div>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M4 10h16M6 10a6 6 0 0112 0M4 14h16v2a4 4 0 01-4 4H8a4 4 0 01-4-4v-2z"/></svg><span>Kuliner</span></div>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l3-8h-4l-2 4H9l-2-4H4"/></svg><span>Touring</span></div>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 17c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M4 12l7-7 9 9"/></svg><span>Renang</span></div>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M3 13l2-5a3 3 0 013-2h8a3 3 0 013 2l2 5v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-5z"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg><span>Otomotif</span></div>
+      <div class="tag-card tilt-el"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 12h.01M17 11h.01M17 13h.01"/><circle cx="10" cy="12" r="1.2"/></svg><span>Gaming</span></div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE TERMINAL -->
+  <section id="terminal" class="reveal">
+    <div class="section-head"><span class="section-num">05</span><h2 class="section-title">Coba Tanya Langsung</h2></div>
+    <div class="term">
+      <div class="term-head"><i></i><i></i><i></i><span class="tlabel">agung@portofolio:~</span></div>
+      <div class="term-body" id="term-body">
+        <div class="term-line">Selamat datang. Ketik <span class="k">help</span> untuk melihat daftar perintah yang tersedia.</div>
+        <div class="term-input-row">
+          <span class="prompt">$</span>
+          <input id="term-input" type="text" placeholder="ketik perintah, mis. whoami" autocomplete="off" spellcheck="false">
+        </div>
       </div>
     </div>
   </section>
@@ -437,6 +447,255 @@
   </footer>
 
 </div>
+</div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = 'ontouchstart' in window;
+
+  /* ---------------- BOOT SEQUENCE ---------------- */
+  var bootEl = document.getElementById('boot');
+  var bootLines = document.getElementById('boot-lines');
+  var hero = document.getElementById('hero');
+  var sparkPath = document.getElementById('spark');
+
+  function finishBoot(){
+    bootEl.classList.add('hidden');
+    hero.classList.add('rise');
+    if(sparkPath) sparkPath.classList.add('draw');
+    startTyped();
+  }
+
+  if(reduceMotion){
+    bootEl.style.display = 'none';
+    hero.style.opacity = 1; hero.style.transform = 'none';
+    if(sparkPath) sparkPath.classList.add('draw');
+    startTypedInstant();
+  } else {
+    var seq = [
+      { text: 'menginisialisasi profil...', ok: false },
+      { text: 'memuat riwayat pekerjaan [OK]', ok: true },
+      { text: 'memuat pencapaian [OK]', ok: true },
+      { text: 'merender biografi.html', ok: false }
+    ];
+    var i = 0;
+    function typeLine(){
+      if(i >= seq.length){ setTimeout(finishBoot, 350); return; }
+      var line = document.createElement('div');
+      line.className = 'muted';
+      bootLines.appendChild(line);
+      var s = seq[i].text, j = 0;
+      var iv = setInterval(function(){
+        line.textContent = s.slice(0, j+1);
+        j++;
+        if(j >= s.length){
+          clearInterval(iv);
+          if(seq[i].ok) line.classList.add('ok');
+          i++;
+          setTimeout(typeLine, 160);
+        }
+      }, 18);
+    }
+    var caret = document.createElement('span');
+    caret.className = 'caret';
+    bootLines.appendChild(caret);
+    typeLine();
+  }
+
+  /* ---------------- TYPED ROLE LINE ---------------- */
+  var roles = ['membangun sistem yang andal', 'memantau kinerja lewat data', 'menjaga layanan tetap hidup'];
+  var typedEl = document.getElementById('typed-role');
+
+  function startTypedInstant(){ typedEl.textContent = roles[0]; }
+
+  function startTyped(){
+    var r = 0;
+    function loop(){
+      var word = roles[r % roles.length];
+      var c = 0;
+      var typing = setInterval(function(){
+        typedEl.textContent = word.slice(0, c+1);
+        c++;
+        if(c >= word.length){
+          clearInterval(typing);
+          setTimeout(erase, 1700);
+        }
+      }, 42);
+      function erase(){
+        var d = word.length;
+        var erasing = setInterval(function(){
+          typedEl.textContent = word.slice(0, d-1);
+          d--;
+          if(d <= 0){
+            clearInterval(erasing);
+            r++;
+            setTimeout(loop, 300);
+          }
+        }, 24);
+      }
+    }
+    loop();
+  }
+
+  /* ---------------- LIVE SESSION UPTIME ---------------- */
+  var startedAt = Date.now();
+  var uptimeEl = document.getElementById('live-uptime');
+  function pad(n){ return String(n).padStart(2,'0'); }
+  setInterval(function(){
+    var elapsed = Math.floor((Date.now() - startedAt)/1000);
+    var h = Math.floor(elapsed/3600);
+    var m = Math.floor((elapsed%3600)/60);
+    var s = elapsed%60;
+    uptimeEl.textContent = pad(h)+':'+pad(m)+':'+pad(s);
+  }, 1000);
+
+  /* ---------------- SCROLL REVEAL ---------------- */
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('in-view'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  /* ---------------- CURSOR GLOW ---------------- */
+  var glow = document.getElementById('cursor-glow');
+  if(!isTouch && !reduceMotion){
+    window.addEventListener('mousemove', function(e){
+      glow.style.opacity = 1;
+      glow.style.left = e.clientX + 'px';
+      glow.style.top = e.clientY + 'px';
+    });
+    window.addEventListener('mouseleave', function(){ glow.style.opacity = 0; });
+  }
+
+  /* ---------------- TILT EFFECT ---------------- */
+  if(!isTouch && !reduceMotion){
+    var tiltNodes = document.querySelectorAll('.tilt-el, #tilt-panel');
+    tiltNodes.forEach(function(node){
+      node.addEventListener('mousemove', function(e){
+        var r = node.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        node.style.transform = 'perspective(700px) rotateX(' + (py * -5) + 'deg) rotateY(' + (px * 5) + 'deg)';
+      });
+      node.addEventListener('mouseleave', function(){
+        node.style.transform = 'perspective(700px) rotateX(0) rotateY(0)';
+      });
+    });
+  }
+
+  /* ---------------- BACKGROUND NETWORK CANVAS ---------------- */
+  var canvas = document.getElementById('bg-canvas');
+  var ctx = canvas.getContext('2d');
+  var w, h, pts = [];
+  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize(){
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = w * DPR; canvas.height = h * DPR;
+    canvas.style.width = w+'px'; canvas.style.height = h+'px';
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    var count = Math.min(70, Math.floor((w*h)/22000));
+    pts = [];
+    for(var k=0;k<count;k++){
+      pts.push({
+        x: Math.random()*w, y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.18, vy: (Math.random()-0.5)*0.18
+      });
+    }
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  function drawFrame(){
+    ctx.clearRect(0,0,w,h);
+    for(var a=0;a<pts.length;a++){
+      var p = pts[a];
+      p.x += p.vx; p.y += p.vy;
+      if(p.x < 0 || p.x > w) p.vx *= -1;
+      if(p.y < 0 || p.y > h) p.vy *= -1;
+    }
+    for(var a=0;a<pts.length;a++){
+      for(var b=a+1;b<pts.length;b++){
+        var dx = pts[a].x - pts[b].x, dy = pts[a].y - pts[b].y;
+        var dist = Math.sqrt(dx*dx+dy*dy);
+        if(dist < 140){
+          ctx.strokeStyle = 'rgba(78,225,160,' + (0.14 * (1 - dist/140)) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(pts[a].x, pts[a].y);
+          ctx.lineTo(pts[b].x, pts[b].y);
+          ctx.stroke();
+        }
+      }
+      ctx.fillStyle = 'rgba(78,225,160,0.5)';
+      ctx.beginPath();
+      ctx.arc(pts[a].x, pts[a].y, 1.6, 0, Math.PI*2);
+      ctx.fill();
+    }
+    if(!reduceMotion) requestAnimationFrame(drawFrame);
+  }
+  drawFrame();
+
+  /* ---------------- INTERACTIVE TERMINAL ---------------- */
+  var termBody = document.getElementById('term-body');
+  var termInput = document.getElementById('term-input');
+  var inputRow = termInput.closest('.term-input-row');
+
+  var responses = {
+    help: "Perintah tersedia: whoami · skills · achievements · experience · contact · clear",
+    whoami: "Agung Prayoga, S.Kom — Software Developer & DevOps Engineer di Xurya Daya Indonesia. Lahir 15 April 1999 di Bekasi.",
+    skills: "Fokus utama: monitoring & observability (Grafana), pengembangan web, deployment & infrastruktur aplikasi.",
+    achievements: "1) HAKI Themonizer  2) Sistem Monitoring Dora Metrics (Grafana)  3) Sistem Absensi Kapal — PPN Pelabuhan Ratu  4) Sistem Data Kapal — PPN Kendari",
+    experience: "Software Developer & DevOps Engineer di Xurya Daya Indonesia — 2 tahun terakhir hingga sekarang.",
+    education: "S1 Ilmu Komputer, Universitas Bhayangkara Jaya.",
+    contact: "Info kontak belum dicantumkan pada halaman ini — silakan hubungi lewat kanal yang sudah Anda miliki.",
+    sudo: "Permintaan ditolak: halaman ini hanya menyediakan informasi, bukan akses sistem sungguhan.",
+  };
+
+  function printLine(text, cls){
+    var l = document.createElement('div');
+    l.className = 'term-line' + (cls ? ' '+cls : '');
+    l.textContent = text;
+    termBody.insertBefore(l, inputRow);
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+
+  function runCommand(raw){
+    var cmd = raw.trim().toLowerCase();
+    printLine(raw, 'cmd');
+    if(cmd === '') return;
+    if(cmd === 'clear'){
+      termBody.querySelectorAll('.term-line').forEach(function(n){ n.remove(); });
+      return;
+    }
+    if(responses[cmd]){
+      printLine(responses[cmd]);
+    } else {
+      printLine("Perintah tidak dikenali: \"" + raw + "\" — ketik help untuk daftar perintah.", 'hint');
+    }
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+
+  termInput.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      var val = termInput.value;
+      termInput.value = '';
+      runCommand(val);
+    }
+  });
+
+  document.getElementById('terminal').addEventListener('click', function(){
+    termInput.focus();
+  });
+
+})();
+</script>
 
 </body>
 </html>
