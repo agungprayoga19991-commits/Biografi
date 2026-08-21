@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agung Prayoga, S.Kom — Biografi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0c10;
+    --surface: #12151c;
+    --surface-2: #171b24;
+    --border: #242a35;
+    --text: #e9ecf1;
+    --text-muted: #8993a6;
+    --text-faint: #57606f;
+    --accent: #4ee1a0;
+    --accent-dim: rgba(78,225,160,0.12);
+    --accent-2: #5b8def;
+    --accent-warm: #f4a65e;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(91,141,239,0.08), transparent),
+      radial-gradient(ellipse 700px 400px at -10% 20%, rgba(78,225,160,0.06), transparent),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--accent-dim); color: var(--accent); }
+
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV / EYEBROW ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 28px 0; border-bottom: 1px solid var(--border);
+  }
+  .topbar .mark{
+    font-family:'JetBrains Mono', monospace; font-size: 13px; color: var(--text-muted);
+    letter-spacing: 0.03em;
+  }
+  .topbar .mark span{ color: var(--accent); }
+  .status-pill{
+    display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);
+    border:1px solid var(--border); padding:6px 12px; border-radius:100px;
+  }
+  .dot{
+    width:7px; height:7px; border-radius:50%; background: var(--accent);
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(78,225,160,0.5); }
+    70%{ box-shadow: 0 0 0 7px rgba(78,225,160,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(78,225,160,0); }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    display:grid; grid-template-columns: 1.15fr 0.85fr; gap:64px;
+    align-items:center; padding: 88px 0 96px;
+    opacity:0; transform: translateY(14px);
+    animation: rise 0.9s ease forwards 0.15s;
+  }
+  @keyframes rise{ to{ opacity:1; transform:none; } }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--accent);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:''; width:24px; height:1px; background: var(--accent); }
+
+  h1.name{
+    font-family:'Fraunces', serif; font-weight:500; font-style:italic;
+    font-size: clamp(40px, 5.4vw, 64px); line-height:1.05; letter-spacing:-0.01em;
+    color:#fff;
+  }
+  h1.name .last{ color: var(--accent); font-style:normal; }
+
+  .role-line{
+    margin-top:20px; font-family:'JetBrains Mono', monospace; font-size:15px;
+    color: var(--text-muted);
+  }
+  .role-line .k{ color: var(--accent-2); }
+  .role-line .s{ color: var(--text-faint); }
+
+  .lede{
+    margin-top: 26px; font-size:16.5px; color: var(--text-muted); max-width: 46ch;
+  }
+
+  .meta-row{
+    display:flex; flex-wrap:wrap; gap: 28px; margin-top:34px;
+  }
+  .meta-item .l{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:5px;
+  }
+  .meta-item .v{ font-size:14.5px; color: var(--text); font-weight:500; }
+
+  /* ---------- MONITORING PANEL (signature element) ---------- */
+  .panel{
+    background: linear-gradient(180deg, var(--surface), var(--surface-2));
+    border:1px solid var(--border); border-radius: 14px; padding: 22px;
+    box-shadow: 0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .panel-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 18px;
+  }
+  .panel-title{
+    font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .panel-title .sq{ width:8px; height:8px; background: var(--accent); border-radius:2px; }
+  .panel-dots{ display:flex; gap:6px; }
+  .panel-dots i{ width:8px; height:8px; border-radius:50%; background: var(--border); display:block; }
+
+  .panel-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; margin-bottom:16px; }
+  .stat{
+    background: rgba(255,255,255,0.02); border:1px solid var(--border);
+    border-radius:10px; padding:14px 16px;
+  }
+  .stat .num{ font-family:'Fraunces', serif; font-size:26px; color:#fff; font-weight:500; }
+  .stat .num em{ color:var(--accent); font-style:normal; }
+  .stat .lbl{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color: var(--text-faint); margin-top:4px; letter-spacing:0.03em; }
+
+  .graph-box{
+    border:1px solid var(--border); border-radius:10px; padding:14px 16px 10px;
+    background: rgba(255,255,255,0.015);
+  }
+  .graph-box .lbl{ font-family:'JetBrains Mono', monospace; font-size:10.5px; color: var(--text-faint); margin-bottom:8px; letter-spacing:0.03em; }
+  .sparkline{ width:100%; height:52px; display:block; }
+  .spark-path{
+    stroke-dasharray: 400; stroke-dashoffset: 400;
+    animation: draw 1.6s ease forwards 0.6s;
+  }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding: 76px 0; border-top: 1px solid var(--border); }
+  .section-head{ display:flex; align-items:baseline; gap:16px; margin-bottom: 44px; }
+  .section-num{ font-family:'JetBrains Mono', monospace; font-size:13px; color: var(--accent); }
+  h2.section-title{
+    font-family:'Fraunces', serif; font-weight:500; font-size: clamp(26px, 3vw, 34px); color:#fff;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 60px; }
+  .about-text p{ color: var(--text-muted); font-size:16px; margin-bottom:18px; max-width: 60ch; }
+  .about-text p .hl{ color: var(--text); }
+
+  .info-list{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); }
+  .info-row{
+    display:flex; justify-content:space-between; gap:20px; padding:16px 0;
+    border-bottom:1px solid var(--border);
+  }
+  .info-row .k{ font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--text-faint); }
+  .info-row .v{ font-size:14.5px; color:var(--text); text-align:right; }
+
+  /* ---------- EXPERIENCE ---------- */
+  .exp-card{
+    display:grid; grid-template-columns: 220px 1fr; gap: 40px;
+    padding: 32px; background: var(--surface); border:1px solid var(--border); border-radius:14px;
+  }
+  .exp-side{ border-right: 1px solid var(--border); padding-right: 32px; }
+  .exp-role{ font-family:'Fraunces', serif; font-size:21px; color:#fff; font-weight:500; margin-bottom:6px; }
+  .exp-org{ color: var(--accent-2); font-size:14.5px; margin-bottom:14px; }
+  .exp-time{
+    font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-faint);
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .exp-time .dot2{ width:6px; height:6px; border-radius:50%; background: var(--accent); }
+
+  .exp-list{ list-style:none; display:flex; flex-direction:column; gap:16px; }
+  .exp-list li{
+    position:relative; padding-left:22px; color: var(--text-muted); font-size:15px;
+  }
+  .exp-list li::before{
+    content:'▸'; position:absolute; left:0; color: var(--accent); font-size:13px; top:2px;
+  }
+  .exp-list li .hl{ color: var(--text); }
+
+  /* ---------- ACHIEVEMENTS (deploy log style) ---------- */
+  .log{ display:flex; flex-direction:column; border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+  .log-item{
+    display:grid; grid-template-columns: 130px 1fr; gap: 28px;
+    padding: 26px 28px; border-bottom:1px solid var(--border); background: var(--surface);
+    transition: background 0.25s ease;
+  }
+  .log-item:last-child{ border-bottom:none; }
+  .log-item:hover{ background: var(--surface-2); }
+  .log-tag{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--bg);
+    background: var(--accent); align-self:start; padding:4px 9px; border-radius:5px; font-weight:500;
+    letter-spacing:0.02em;
+  }
+  .log-tag.alt{ background: var(--accent-warm); }
+  .log-tag.alt2{ background: var(--accent-2); color:#fff; }
+  .log-body h3{ font-family:'Fraunces', serif; font-size:19px; color:#fff; font-weight:500; margin-bottom:8px; }
+  .log-body p{ color: var(--text-muted); font-size:14.5px; max-width: 62ch; }
+  .log-cmd{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; color: var(--text-faint);
+    margin-top:10px;
+  }
+  .log-cmd .p{ color: var(--accent); }
+
+  /* ---------- INTERESTS ---------- */
+  .tag-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; }
+  .tag-card{
+    border:1px solid var(--border); border-radius:12px; padding:22px 20px;
+    display:flex; align-items:center; gap:14px; background: var(--surface);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .tag-card:hover{ border-color: var(--accent); transform: translateY(-2px); }
+  .tag-card svg{ flex-shrink:0; }
+  .tag-card span{ font-size:14.5px; color: var(--text); font-weight:500; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding: 56px 0 64px; border-top:1px solid var(--border); }
+  .foot-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .foot-quote{ font-family:'Fraunces', serif; font-style:italic; font-size:17px; color: var(--text-muted); max-width: 42ch; }
+  .foot-sig{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--text-faint); text-align:right; }
+  .foot-sig .accent{ color: var(--accent); }
+
+  @media (max-width: 860px){
+    .hero{ grid-template-columns: 1fr; padding-top:56px; }
+    .about-grid{ grid-template-columns: 1fr; gap:32px; }
+    .exp-card{ grid-template-columns: 1fr; }
+    .exp-side{ border-right:none; border-bottom:1px solid var(--border); padding-right:0; padding-bottom:20px; }
+    .log-item{ grid-template-columns: 1fr; }
+    .tag-grid{ grid-template-columns: repeat(2, 1fr); }
+    .panel-grid{ grid-template-columns: 1fr 1fr; }
+    .foot-row{ flex-direction:column; align-items:flex-start; }
+    .foot-sig{ text-align:left; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero, .spark-path, .dot{ animation: none !important; }
+    .hero{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="mark">agung<span>.</span>prayoga <span>// biografi</span></div>
+    <div class="status-pill"><span class="dot"></span> sedang aktif berkarya</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Software Developer &amp; DevOps Engineer</div>
+      <h1 class="name">Agung <span class="last">Prayoga</span>, S.Kom</h1>
+      <div class="role-line"><span class="k">status:</span> membangun sistem yang andal <span class="s">// Bekasi, Indonesia</span></div>
+      <p class="lede">Lulusan Ilmu Komputer yang menghabiskan dua tahun terakhir merancang, memantau, dan menjaga sistem tetap berjalan — mulai dari dashboard performa karyawan hingga basis data kapal yang menjadi acuan saat keadaan darurat.</p>
+
+      <div class="meta-row">
+        <div class="meta-item">
+          <div class="l">Lahir</div>
+          <div class="v">15 April 1999, Bekasi</div>
+        </div>
+        <div class="meta-item">
+          <div class="l">Pendidikan</div>
+          <div class="v">S1 Ilmu Komputer — Univ. Bhayangkara Jaya</div>
+        </div>
+        <div class="meta-item">
+          <div class="l">Saat Ini</div>
+          <div class="v">Xurya Daya Indonesia</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIGNATURE: monitoring panel -->
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title"><span class="sq"></span> career_metrics.dashboard</div>
+        <div class="panel-dots"><i></i><i></i><i></i></div>
+      </div>
+      <div class="panel-grid">
+        <div class="stat">
+          <div class="num">2<em>th</em></div>
+          <div class="lbl">MASA KERJA AKTIF</div>
+        </div>
+        <div class="stat">
+          <div class="num"><em>4</em></div>
+          <div class="lbl">SISTEM DIBANGUN</div>
+        </div>
+        <div class="stat">
+          <div class="num"><em>1</em></div>
+          <div class="lbl">HAKI TERDAFTAR</div>
+        </div>
+        <div class="stat">
+          <div class="num">99.9<em>%</em></div>
+          <div class="lbl">UPTIME KOMITMEN</div>
+        </div>
+      </div>
+      <div class="graph-box">
+        <div class="lbl">TREN KONTRIBUSI // 2024 — 2026</div>
+        <svg class="sparkline" viewBox="0 0 300 60" preserveAspectRatio="none">
+          <polyline points="0,45 40,42 70,30 110,34 150,18 190,22 230,10 270,14 300,4" fill="none" stroke="#4ee1a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="spark-path"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head"><span class="section-num">01</span><h2 class="section-title">Tentang</h2></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Agung Prayoga adalah <span class="hl">Software Developer sekaligus DevOps Engineer</span> yang saat ini berkontribusi di Xurya Daya Indonesia. Perjalanannya di dunia teknologi dimulai dari bangku kuliah Ilmu Komputer di Universitas Bhayangkara Jaya, dan terus tumbuh melalui proyek-proyek yang menuntut ketelitian sekaligus tanggung jawab besar — dari sistem pemantauan kinerja internal hingga infrastruktur data yang digunakan oleh instansi pelabuhan negara.</p>
+        <p>Baginya, <span class="hl">kode yang baik bukan sekadar berjalan, tetapi dapat dipercaya, terpantau, dan terus relevan</span> seiring kebutuhan penggunanya. Pendekatan ini tercermin dari caranya membangun sistem monitoring berbasis Grafana maupun aplikasi pencatatan data kapal yang menjadi acuan penting dalam situasi darurat.</p>
+        <p>Di luar layar kerja, Agung menyeimbangkan ritme hidupnya lewat perjalanan, kuliner, otomotif, dan sesekali menyelami dunia game — kebiasaan yang menurutnya menjaga rasa ingin tahu tetap hidup, baik di jalan raya maupun di baris kode.</p>
+      </div>
+      <div class="info-list">
+        <div class="info-row"><div class="k">nama_lengkap</div><div class="v">Agung Prayoga, S.Kom</div></div>
+        <div class="info-row"><div class="k">tempat_lahir</div><div class="v">Bekasi, Jawa Barat</div></div>
+        <div class="info-row"><div class="k">tanggal_lahir</div><div class="v">15 April 1999</div></div>
+        <div class="info-row"><div class="k">pendidikan</div><div class="v">S1 Ilmu Komputer</div></div>
+        <div class="info-row"><div class="k">institusi</div><div class="v">Universitas Bhayangkara Jaya</div></div>
+        <div class="info-row"><div class="k">peran</div><div class="v">Software Developer & DevOps</div></div>
+        <div class="info-row"><div class="k">perusahaan</div><div class="v">Xurya Daya Indonesia</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-head"><span class="section-num">02</span><h2 class="section-title">Pengalaman</h2></div>
+    <div class="exp-card">
+      <div class="exp-side">
+        <div class="exp-role">Software Developer &amp; DevOps Engineer</div>
+        <div class="exp-org">Xurya Daya Indonesia</div>
+        <div class="exp-time"><span class="dot2"></span> 2 tahun terakhir — Sekarang</div>
+      </div>
+      <ul class="exp-list">
+        <li>Merancang dan memelihara <span class="hl">sistem monitoring Dora Metrics</span> di atas Grafana sebagai alat bantu penilaian kinerja karyawan berbasis KPI.</li>
+        <li>Mengelola alur <span class="hl">deployment dan infrastruktur aplikasi</span> secara end-to-end, mulai dari build, rilis, hingga pemantauan pascaproduksi.</li>
+        <li>Mengembangkan sistem informasi berbasis web untuk sektor kemaritiman, digunakan oleh Pelabuhan Perikanan Nusantara (PPN) di dua lokasi berbeda.</li>
+        <li>Berperan ganda sebagai pengembang perangkat lunak dan penanggung jawab stabilitas sistem — menjembatani sisi pembuatan fitur dengan sisi operasional yang harus tetap andal.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-head"><span class="section-num">03</span><h2 class="section-title">Karya &amp; Pencapaian</h2></div>
+    <div class="log">
+      <div class="log-item">
+        <div class="log-tag alt2">HAKI</div>
+        <div class="log-body">
+          <h3>Themonizer</h3>
+          <p>Karya orisinal yang telah terdaftar dan memperoleh Hak Kekayaan Intelektual (HAKI), menjadi bukti formal atas kontribusi dan inovasi pribadi di bidang perangkat lunak.</p>
+          <div class="log-cmd"><span class="p">$</span> status --karya themonizer → terdaftar resmi</div>
+        </div>
+      </div>
+      <div class="log-item">
+        <div class="log-tag">MONITORING</div>
+        <div class="log-body">
+          <h3>Sistem Monitoring Dora Metrics — Grafana</h3>
+          <p>Dashboard evaluasi kinerja karyawan berbasis metrik DORA, dibangun di atas Grafana untuk memberi gambaran objektif dan terukur atas performa tim secara berkelanjutan.</p>
+          <div class="log-cmd"><span class="p">$</span> deploy dora-metrics.dashboard → live</div>
+        </div>
+      </div>
+      <div class="log-item">
+        <div class="log-tag alt">SISTEM DATA</div>
+        <div class="log-body">
+          <h3>Sistem Absensi Kapal — PPN Pelabuhan Ratu</h3>
+          <p>Sistem berbasis web yang mencatat kehadiran kapal secara akurat, dirancang sebagai data acuan resmi apabila terjadi bencana atau kecelakaan di laut — memastikan setiap kapal tetap terlacak.</p>
+          <div class="log-cmd"><span class="p">$</span> build absensi-kapal.web → PPN Pelabuhan Ratu</div>
+        </div>
+      </div>
+      <div class="log-item">
+        <div class="log-tag alt">SISTEM DATA</div>
+        <div class="log-body">
+          <h3>Sistem Data Kapal — PPN Kendari</h3>
+          <p>Pusat informasi data kapal nelayan yang mengonsolidasikan catatan kapal ke dalam satu sistem terpadu, mempermudah pemantauan dan pengambilan keputusan di tingkat pelabuhan.</p>
+          <div class="log-cmd"><span class="p">$</span> build data-kapal.web → PPN Kendari</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERESTS -->
+  <section id="interests">
+    <div class="section-head"><span class="section-num">04</span><h2 class="section-title">Minat &amp; Keseharian</h2></div>
+    <div class="tag-grid">
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 16l7-2 5-8 2 1-4 8 6 3-1 2-8-2-4 3-1-2z"/></svg>
+        <span>Travel</span>
+      </div>
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M4 10h16M6 10a6 6 0 0112 0M4 14h16v2a4 4 0 01-4 4H8a4 4 0 01-4-4v-2z"/></svg>
+        <span>Kuliner</span>
+      </div>
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M9 17h6l3-8h-4l-2 4H9l-2-4H4"/></svg>
+        <span>Touring</span>
+      </div>
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M2 17c1.5-1.5 3-1.5 4.5 0s3 1.5 4.5 0 3-1.5 4.5 0 3 1.5 4.5 0M4 12l7-7 9 9"/></svg>
+        <span>Renang</span>
+      </div>
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><path d="M3 13l2-5a3 3 0 013-2h8a3 3 0 013 2l2 5v5a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1H6v1a1 1 0 01-1 1H4a1 1 0 01-1-1v-5z"/><circle cx="7.5" cy="14.5" r="1"/><circle cx="16.5" cy="14.5" r="1"/></svg>
+        <span>Otomotif</span>
+      </div>
+      <div class="tag-card">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4ee1a0" stroke-width="1.6"><rect x="2" y="7" width="20" height="10" rx="4"/><path d="M7 12h.01M17 11h.01M17 13h.01"/><circle cx="10" cy="12" r="1.2"/></svg>
+        <span>Gaming</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-row">
+      <div class="foot-quote">"Dibangun dengan ketelitian, dijalankan dengan tanggung jawab."</div>
+      <div class="foot-sig">Agung Prayoga, S.Kom <span class="accent">//</span> Bekasi, Indonesia<br>Software Developer & DevOps Engineer</div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
