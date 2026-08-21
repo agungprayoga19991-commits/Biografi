@@ -39,14 +39,14 @@
   /* ---------- ANIMATED BACKGROUND ---------- */
   #bg-canvas{
     position: fixed; inset:0; width:100%; height:100%; z-index:0;
-    opacity: 0.55;
+    opacity: 0.85;
   }
   .bg-fade{
     position: fixed; inset:0; z-index:1; pointer-events:none;
     background:
-      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(91,141,239,0.10), transparent 60%),
-      radial-gradient(ellipse 700px 450px at -10% 30%, rgba(78,225,160,0.07), transparent 60%),
-      linear-gradient(180deg, rgba(10,12,16,0.2), var(--bg) 12%, var(--bg) 88%, rgba(10,12,16,0.4));
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(91,141,239,0.06), transparent 60%),
+      radial-gradient(ellipse 900px 600px at 50% 40%, rgba(10,12,16,0.32), rgba(10,12,16,0.58) 75%),
+      linear-gradient(180deg, rgba(10,12,16,0.18), rgba(10,12,16,0.5) 10%, rgba(10,12,16,0.5) 90%, rgba(10,12,16,0.25));
   }
   #cursor-glow{
     position: fixed; width: 480px; height:480px; border-radius:50%; z-index:2;
@@ -589,54 +589,62 @@
     });
   }
 
-  /* ---------------- BACKGROUND NETWORK CANVAS ---------------- */
+  /* ---------------- BACKGROUND: DIGITAL RAIN (hacker style) ---------------- */
   var canvas = document.getElementById('bg-canvas');
   var ctx = canvas.getContext('2d');
-  var w, h, pts = [];
-  var DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var w, h, drops = [], fontSize = 15, columns = 0;
+  var DPR = Math.min(window.devicePixelRatio || 1, 1.6);
+
+  var glyphs = "01アイウエオカキクケコサシスセソABCDEFGHJKLMNPQRSTUVWXYZ{}[]<>/=;#$%*+-_".split('');
+  function randGlyph(){ return glyphs[Math.floor(Math.random()*glyphs.length)]; }
 
   function resize(){
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = w * DPR; canvas.height = h * DPR;
     canvas.style.width = w+'px'; canvas.style.height = h+'px';
     ctx.setTransform(DPR,0,0,DPR,0,0);
-    var count = Math.min(70, Math.floor((w*h)/22000));
-    pts = [];
-    for(var k=0;k<count;k++){
-      pts.push({
-        x: Math.random()*w, y: Math.random()*h,
-        vx: (Math.random()-0.5)*0.18, vy: (Math.random()-0.5)*0.18
+    columns = Math.floor(w / fontSize);
+    drops = [];
+    for(var k=0;k<columns;k++){
+      drops.push({
+        y: Math.random() * -h / fontSize,
+        speed: 0.35 + Math.random() * 0.9,
+        trail: 8 + Math.floor(Math.random()*10)
       });
     }
+    ctx.fillStyle = '#05070a';
+    ctx.fillRect(0,0,w,h);
   }
   window.addEventListener('resize', resize);
   resize();
 
   function drawFrame(){
-    ctx.clearRect(0,0,w,h);
-    for(var a=0;a<pts.length;a++){
-      var p = pts[a];
-      p.x += p.vx; p.y += p.vy;
-      if(p.x < 0 || p.x > w) p.vx *= -1;
-      if(p.y < 0 || p.y > h) p.vy *= -1;
-    }
-    for(var a=0;a<pts.length;a++){
-      for(var b=a+1;b<pts.length;b++){
-        var dx = pts[a].x - pts[b].x, dy = pts[a].y - pts[b].y;
-        var dist = Math.sqrt(dx*dx+dy*dy);
-        if(dist < 140){
-          ctx.strokeStyle = 'rgba(78,225,160,' + (0.14 * (1 - dist/140)) + ')';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(pts[a].x, pts[a].y);
-          ctx.lineTo(pts[b].x, pts[b].y);
-          ctx.stroke();
-        }
+    ctx.fillStyle = 'rgba(5,7,10,0.14)';
+    ctx.fillRect(0,0,w,h);
+    ctx.font = fontSize + 'px "JetBrains Mono", monospace';
+
+    for(var c=0;c<columns;c++){
+      var d = drops[c];
+      var x = c * fontSize;
+      var y = d.y * fontSize;
+
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.fillText(randGlyph(), x, y);
+
+      ctx.fillStyle = 'rgba(78,225,160,0.75)';
+      for(var t=1;t<d.trail;t++){
+        var ty = y - t * fontSize;
+        if(ty < 0) continue;
+        var alpha = 0.8 * (1 - t/d.trail);
+        ctx.fillStyle = 'rgba(78,225,160,' + alpha.toFixed(3) + ')';
+        ctx.fillText(randGlyph(), x, ty);
       }
-      ctx.fillStyle = 'rgba(78,225,160,0.5)';
-      ctx.beginPath();
-      ctx.arc(pts[a].x, pts[a].y, 1.6, 0, Math.PI*2);
-      ctx.fill();
+
+      d.y += d.speed;
+      if(y > h + d.trail * fontSize && Math.random() > 0.975){
+        d.y = 0;
+        d.speed = 0.35 + Math.random() * 0.9;
+      }
     }
     if(!reduceMotion) requestAnimationFrame(drawFrame);
   }
